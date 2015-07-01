@@ -36,7 +36,9 @@ $(document).ready(function() {
 var settings = {
 				width: 512, // 슬라이더 가로 크기
 				delay: 800, // 애니메이션 실행 시간
-				arrow: true // 슬라이더 화살표 유무 표시
+				arrow: true, // 슬라이더 화살표 유무 표시
+				autoSlide: false, // 슬라이드가 자동으로 움직일지 유무 값
+				autoIntervalDely: 2000// 슬라이드가 자동으로 움직일 시간
 			}
 ```
 
