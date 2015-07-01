@@ -9,7 +9,7 @@ Slider 연습 프로젝트 진행 중
 2. slider.pg.css 를 HTML 파일상에 Import 합니다.
 3. 그다음 아래의 원하는 위치에 HTML 태그를 삽입 합니다. 여기서 first_slider 만 이름을 변경할 수 있습니다.
 
-"`
+    "`
 <div class="pg_sliders" id="first_slider">
 		<ul class="pg_pages">
 			<li><img src="./images/1.jpg"></li>
@@ -20,7 +20,7 @@ Slider 연습 프로젝트 진행 중
 			<li><img src="./images/6.jpg"></li>
 		</ul>
 </div>
-"`
+    "`
 
 4. js 파일을 하나 생성하여 아래의 코드로 슬라이더를 추가해줍니다.
 
