@@ -1,0 +1,5 @@
+.pg_sliders { overflow: hidden; margin: 0 auto; position: relative; }
+.pg_sliders ul { width: 3072px; list-style: none; font-size: 0; }
+.pg_sliders ul li { display: inline-block; }
+.pg_sliders div.prev { position: absolute; left: 10px; top: 162px; width: 0; height: 0; border-right: 20px solid white; border-top: 20px solid transparent; border-bottom: 20px solid transparent; }
+.pg_sliders div.next { position: absolute; right: 10px; top: 162px; width: 0; height: 0; border-left: 20px solid white; border-top: 20px solid transparent; border-bottom: 20px solid transparent; }
