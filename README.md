@@ -51,3 +51,8 @@ var settings = {
 
 $('#first_slider').sliderPG('gotoPage', 2); // 3페이지로 이동(0부터 시작합니다.)
 "`
+
+————-
+“`
+var i = 0
+“`
