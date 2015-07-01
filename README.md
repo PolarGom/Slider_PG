@@ -1,10 +1,10 @@
 # Slider_PG
 Slider 연습 프로젝트 진행 중
 
-1. 기능
+# 기능
 - 좌우 화살표 클릭시 슬라이더 페이지 이동
 
-2. 사용방법
+# 사용방법
 - slider-pg-0.0.1.min.js 를 HTML 파일상에 Import 를 합니다.
 - slider.pg.css 를 HTML 파일상에 Import 합니다.
 - 그다음 아래의 원하는 위치에 HTML 태그를 삽입 합니다. 여기서 first_slider 만 이름을 변경할 수 있습니다.
@@ -40,7 +40,7 @@ var settings = {
 			}
 "'
 
-3. Public 함수
+# Public 함수
 - gotoPage 함수. 사용자가 원하는 슬라이더 페이지로 이동합니다. 사용방법은 아래와 같습니다.
 "'
 
