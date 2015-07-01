@@ -45,5 +45,7 @@ var settings = {
 1. gotoPage 함수. 사용자가 원하는 슬라이더 페이지로 이동합니다. 사용방법은 아래와 같습니다.
 
 "`
-$('#first_slider').sliderPG('gotoPage', 2) // 3페이지로 이동(0부터 시작합니다.)
+
 "`
+$('#first_slider').sliderPG('gotoPage', 2) // 3페이지로 이동(0부터 시작합니다.)
+
