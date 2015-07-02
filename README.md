@@ -2,6 +2,7 @@
 ====
 ### 기능
 1. 좌우 화살표 클릭시 슬라이더 페이지 이동
+2. 모바일에서 터치로 슬라이더 페이지 이동 추가(현재 사파리만 지원)
 
 ### 사용방법
 1. slider-pg-0.0.1.min.js 를 HTML 파일상에 Import 를 합니다.
@@ -38,7 +39,8 @@ var settings = {
 				delay: 800, // 애니메이션 실행 시간
 				arrow: true, // 슬라이더 화살표 유무 표시
 				autoSlide: false, // 슬라이드가 자동으로 움직일지 유무 값
-				autoIntervalDely: 2000// 슬라이드가 자동으로 움직일 시간
+				autoIntervalDely: 2000, // 슬라이드가 자동으로 움직일 시간
+				touch: false // 슬라이드가 모바일 터치 지원 유무 판단하는 값
 			}
 ```
 
