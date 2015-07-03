@@ -70,6 +70,42 @@
 		 */
 		this.isIE = false;
 
+		/**
+		 * 모바일 브라우저인지 체크하는 값
+		 * 
+		 * @property isMobile
+		 * @type Boolean
+		 * @default false
+		 */
+		this.isMobile = false;
+
+		/**
+		 * 터치가 시작됐을때 X 좌표 값
+		 * 
+		 * @property touchX
+		 * @type Number
+		 * @default 0
+		 */
+		this.startTouchX = 0;
+
+		/**
+		 * 터치가 완료 되었을때 Y 좌표 값
+		 * 
+		 * @property touchY
+		 * @type Number
+		 * @default 0
+		 */
+		this.endTouchX = 0;
+
+		/**
+		 * 터치할때 움직이는 슬라이더 값
+		 * 
+		 * @property moveSliderTouchX
+		 * @type Number
+		 * @default 0
+		 */
+		this.moveSliderTouchX = 0;
+
 		this._init();
 	};
 
@@ -84,6 +120,7 @@
 		_init: function() {
 
 			var that = this;
+			var mobileInfos = ['Android', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson'];
 
 			this.container = $(this.instance);
 			this.sliderPages = this.container.find('ul.pg_pages');
@@ -91,13 +128,26 @@
 			this.totalSliderCount = this.sliderPages.children().length; // 슬라이더 총 갯수
 			this.sliderPages.css('width', (this.totalSliderCount * this.options.width) + 'px'); // 슬라이더 총 가로 길이
 
+			// IE 10 이하인지 체크하는 구문
 			if ( window.navigator.userAgent.indexOf('MSIE') > -1 ) {
 
 				this.isIE = true;
 			}
+			
+			// 모바일 브라우저인지 체크하는 구문
+			for ( var index = 0, mobileInfoSize = mobileInfos.length; index < mobileInfoSize; index++ ) {
 
+				if ( navigator.userAgent.match(mobileInfos[index]) !== null ) {
+			        
+					this.isMobile = true;
+
+			        break;
+			    }
+			}
+			
 			this._setSliderArrow();
 			this._arrowClickEvent();
+			this._touchSwipeEvent();
 			this._setSliderInterval();
 		},
 
@@ -237,7 +287,66 @@
 
 				sliderAutoAnimation();
 			}	
-		}
+		},
+
+		/**
+		 * 좌우 터치로 슬라이드 했을때 발생하는 이벤트
+		 *
+		 * @method _touchSwipeEvent
+		 */
+		 _touchSwipeEvent: function() {
+
+		 	var that = this;
+
+		 	if ( (this.isMobile === true) && (this.options.touch === true) ) {
+
+		 		this.sliderPages.bind('touchstart', function(event) {
+
+		 			event.preventDefault();
+
+		 			// 터치는 브라우저 width 0부터 시작하기 때문에 해당 레이어의 위치를 구한뒤 빼야 레이어의 0부터 시작함
+		 			that.startTouchX = event.originalEvent.targetTouches[0].pageX - that.container.offset().left;
+		 		});	
+
+		 		this.sliderPages.bind('touchmove', function(event) {
+
+					event.preventDefault();		 			
+
+					that.moveSliderTouchX = -(that.pageCurrent * that.options.width) + (event.originalEvent.targetTouches[0].screenX - that.container.offset().left - that.startTouchX);
+
+					that.sliderPages.animate({marginLeft: that.moveSliderTouchX}, 0);
+
+				});
+
+		 		this.sliderPages.bind('touchend', function(event) {
+
+		 			that.endTouchX = event.originalEvent.changedTouches[0].pageX - that.container.offset().left;
+
+		 			if ( (that.pageCurrent === 0) && (that.moveSliderTouchX > 0) ) {
+
+		 				// 슬라이더가 marginLeft로 움직일때 값이 0보다 클 경우 첫번째 페이지이기 때문에 맨 처음 페이지로 이동
+		 				that.gotoPage(0); 
+		 			} else if ( (that.pageCurrent === that.totalSliderCount - 1) 
+		 						&& (that.moveSliderTouchX < -(that.pageCurrent * that.options.width)) ) {
+
+		 				// 슬라이더가 marginLeft로 움직일때 값이 -2560(예시값)보다 클 경우 마지막 페이지이기 때문에 마지막 페이지로 이동
+		 				that.gotoPage(that.totalSliderCount - 1);
+		 			} else {
+
+		 				// 좌우 움직일 방향을 정하는 구문
+		 				if ( that.startTouchX > that.endTouchX ) {
+
+		 					that.pageCurrent += 1;
+		 				} else if ( that.startTouchX < that.endTouchX ) {
+
+		 					that.pageCurrent -= 1;
+		 				}
+
+		 				that.gotoPage(that.pageCurrent);
+		 			}
+		 		});
+		 	}
+		 }
 	};
 
 	$.fn.sliderPG = function(options) {
@@ -251,7 +360,8 @@
 				delay: 800, // 애니메이션 실행 시간
 				arrow: true, // 슬라이더 화살표 유무 표시
 				autoSlide: false, // 슬라이드가 자동으로 움직일지 유무 값
-				autoIntervalDely: 2000// 슬라이드가 자동으로 움직일 시간
+				autoIntervalDely: 2000, // 슬라이드가 자동으로 움직일 시간
+				touch: false // 슬라이드가 모바일 터치 지원 유무 판단하는 값
 			}
 
 			$.extend(settings, options);
@@ -260,7 +370,7 @@
 
 				var newInstance = new SliderPG(this, settings);
 
-				$( this ).data('sliderPG', newInstance);
+				$(this).data('sliderPG', newInstance);
 			} else {
 
 				var currentInstance = $(this).data('sliderPG');
